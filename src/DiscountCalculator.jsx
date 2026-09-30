@@ -1,12 +1,6 @@
-// ============================================================
-// src/DiscountCalculator.jsx
-// ============================================================
-
 import { useState } from "react";
 import "./DiscountCalculator.css";
 
-// Справочник категорий:
-// ключ — id, значение — название и размер скидки
 const CATEGORIES = [
   { id: "electronics", label: "Электроника", discount: 5 },
   { id: "clothing", label: "Одежда", discount: 15 },
@@ -15,32 +9,20 @@ const CATEGORIES = [
   { id: "other", label: "Другое", discount: 0 },
 ];
 
-// Ставка НДС — 22%
 const VAT_RATE = 0.22;
 
 function DiscountCalculator() {
-  // ---------------- Состояние ----------------
-
-  // Цена товара хранится как строка,
-  // потому что input в React работает со строками
   const [price, setPrice] = useState("");
 
-  // Выбранная категория
   const [category, setCategory] = useState("electronics");
 
-  // Показывать ли результаты расчёта
   const [calculated, setCalculated] = useState(false);
 
-  // Сообщение об ошибке
   const [error, setError] = useState("");
 
-  // ---------------- Обработчики ----------------
-
-  // Изменение цены
   function handlePriceChange(e) {
     const value = e.target.value;
 
-    // Разрешаем только цифры и одну точку
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
       setPrice(value);
       setError("");
@@ -48,33 +30,26 @@ function DiscountCalculator() {
     }
   }
 
-  // Изменение категории
   function handleCategoryChange(e) {
     setCategory(e.target.value);
-
-    // При изменении категории старый результат скрываем
     setCalculated(false);
   }
 
-  // Нажатие кнопки "Рассчитать"
   function handleCalculate() {
     const numPrice = parseFloat(price);
 
-    // Если поле пустое
     if (!price.trim()) {
       setError("Введите цену товара");
       setCalculated(false);
       return;
     }
 
-    // Если введено не число или отрицательное/нулевое значение
     if (isNaN(numPrice) || numPrice <= 0) {
       setError("Цена должна быть положительным числом");
       setCalculated(false);
       return;
     }
 
-    // Если всё правильно
     setError("");
     setCalculated(true);
   }
@@ -87,50 +62,38 @@ function DiscountCalculator() {
     setError("");
   }
 
-  // ---------------- Вычисления ----------------
-
-  // Находим выбранную категорию
   const selectedCategory = CATEGORIES.find(
     (c) => c.id === category
   );
 
-  // Преобразуем цену в число
   const numPrice = parseFloat(price) || 0;
 
-  // Получаем процент скидки
   const discountPercent = selectedCategory
     ? selectedCategory.discount
     : 0;
 
-  // Сумма скидки
   const discountAmount = calculated
     ? numPrice * (discountPercent / 100)
     : 0;
 
-  // Цена после скидки
   const priceAfterDiscount = calculated
     ? numPrice - discountAmount
     : 0;
 
-  // НДС
   const vatAmount = calculated
     ? priceAfterDiscount * VAT_RATE
     : 0;
 
-  // Итоговая сумма
   const total = calculated
     ? priceAfterDiscount + vatAmount
     : 0;
 
-  // Форматирование суммы в рублях
   function formatRub(value) {
     return value.toLocaleString("ru-RU", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
   }
-
-  // ---------------- Разметка ----------------
 
   return (
     <div className="calculator-wrapper">
@@ -139,7 +102,7 @@ function DiscountCalculator() {
         Калькулятор скидок
       </h2>
 
-      {/* Поле цены */}
+      {/*поле цены*/}
       <div className="field">
         <label htmlFor="price" className="field__label">
           Цена товара (₽)
@@ -164,7 +127,7 @@ function DiscountCalculator() {
         )}
       </div>
 
-      {/* Выбор категории */}
+      {/*выбор категории*/}
       <div className="field">
         <label htmlFor="category" className="field__label">
           Категория товара
@@ -184,7 +147,7 @@ function DiscountCalculator() {
         </select>
       </div>
 
-      {/* Кнопки */}
+      {/*кнопки*/}
       <div className="actions">
 
         <button
@@ -205,7 +168,6 @@ function DiscountCalculator() {
 
       </div>
 
-      {/* Результаты показываем только после нажатия "Рассчитать" */}
       {calculated && !error && (
         <div className="results">
 
