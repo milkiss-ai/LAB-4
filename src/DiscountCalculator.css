@@ -14,8 +14,7 @@
   text-align: center;
 }
 
-
-/* ---------- Поля ---------- */
+/*поля*/
 
 .field {
   margin-bottom: 20px;
@@ -64,8 +63,7 @@
   padding-right: 32px;
 }
 
-
-/* ---------- Ошибка ---------- */
+/*error*/
 
 .field__error {
   margin-top: 4px;
@@ -74,7 +72,7 @@
 }
 
 
-/* ---------- Кнопки ---------- */
+/*кнопки*/
 
 .actions {
   display: flex;
@@ -115,8 +113,7 @@
   background: #e5e7eb;
 }
 
-
-/* ---------- Результаты ---------- */
+/*резы*/
 
 .results {
   padding-top: 8px;
